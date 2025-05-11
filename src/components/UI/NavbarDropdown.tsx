@@ -37,15 +37,9 @@ export default function NavbarDropdown() {
         <Avatar className="cursor-pointer" src={user?.profilePhoto} />
       </DropdownTrigger>
       <DropdownMenu aria-label="Static Actions">
-        <DropdownItem onClick={() => handleNavigation("/profile")}>
-          My Profile
-        </DropdownItem>
-        <DropdownItem onClick={() => handleNavigation("/profile/notic")}>
-          Notic
-        </DropdownItem>
-        <DropdownItem onClick={() => handleNavigation("/profile/myClass")}>
-          My Class
-        </DropdownItem>
+        
+    
+       
         <DropdownItem
           key="delete"
           className="text-danger"
