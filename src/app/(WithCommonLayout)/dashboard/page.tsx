@@ -39,7 +39,7 @@ export default function DashboardPage() {
 
   // ✅ Load course progress from localStorage for all enrolled courses
   useEffect(() => {
-    if (enrollments && enrollments.length > 0) {
+    if (enrollments && enrollments?.length > 0) {
       const progressData: { [key: string]: number } = {};
 
       enrollments.forEach((enrollment: any) => {
@@ -48,10 +48,10 @@ export default function DashboardPage() {
         if (stored) {
           try {
             const parsed = JSON.parse(stored);
-            if (parsed.completedVideos && parsed.completedVideos.length > 0) {
+            if (parsed.completedVideos && parsed.completedVideos?.length > 0) {
               const totalVideos = parsed.totalVideos || enrollment.course?.videoUrls?.length || 0;
               const percentage = totalVideos
-                ? Math.round((parsed.completedVideos.length / totalVideos) * 100)
+                ? Math.round((parsed.completedVideos?.length / totalVideos) * 100)
                 : 0;
               progressData[courseId] = percentage;
             } else {
