@@ -53,7 +53,7 @@ export default function EnrollmentPage() {
 
     try {
       const response = await fetch(
-        `${baseAPI}/enrollment`,
+        `${baseAPI}enrollment`,
         {
           method: "POST",
           headers: {
