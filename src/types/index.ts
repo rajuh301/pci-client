@@ -91,6 +91,7 @@ export type CourseInput = {
 };
 
 export type TCourseData = {
+  videoUrls: any;
   content: string;
   isActive: any;
   title: string;

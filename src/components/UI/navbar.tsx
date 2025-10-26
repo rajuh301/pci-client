@@ -26,7 +26,7 @@ export const Navbar = () => {
           {/* Logo/Brand */}
           <div className="flex-shrink-0 flex items-center">
             <span className="text-xl font-bold text-pink-600 dark:text-pink-400">
-              প্রত্যাশা কম্পিউটার ইন্সটিটিউট
+              বুদ্ধিবৃত্ত
             </span>
           </div>
 

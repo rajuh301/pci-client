@@ -35,46 +35,44 @@ const Landing = () => {
       >
         <SwiperSlide>
           <img
-            alt="Nature"
+            alt="Online Learning Concept"
             className="w-full h-64 md:h-80 lg:h-96 object-cover rounded-lg"
-            src="https://images.prismic.io/bakertilly/ZxAvs4F3NbkBXmmQ_Artificialintelligenceinpalmofmanshand.jpg?auto=format%2Ccompress&rect=0%2C69%2C1920%2C1008&w=1200&h=630"
+            src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80"
           />
         </SwiperSlide>
         <SwiperSlide>
           <img
-            alt="City Sunset"
+            alt="Students Learning Together"
             className="w-full h-64 md:h-80 lg:h-96 object-cover rounded-lg"
-            src="https://psiborg.in/wp-content/uploads/2024/01/IOT-AI-ML-com.webp"
+            src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
           />
         </SwiperSlide>
         <SwiperSlide>
           <img
-            alt="Mountains"
+            alt="E-learning Setup"
             className="w-full h-64 md:h-80 lg:h-96 object-cover rounded-lg"
-            src="https://blog-frontend.envato.com/cdn-cgi/image/width=1200,quality=75,format=auto,fit=crop,height=630/uploads/sites/2/2023/02/Tuts_Roundup__Top_Graphic_Design_Courses.jpeg"
+            src="https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1964&q=80"
           />
         </SwiperSlide>
         <SwiperSlide>
           <img
-            alt="Beach"
+            alt="Digital Classroom"
             className="w-full h-64 md:h-80 lg:h-96 object-cover rounded-lg"
-            src="https://www.sgstechnologies.net/sites/default/files/2021-08/future-webdesign.jpg"
+            src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2022&q=80"
           />
         </SwiperSlide>
-
         <SwiperSlide>
           <img
-            alt="Road Trip"
+            alt="Student Success"
             className="w-full h-64 md:h-80 lg:h-96 object-cover rounded-lg"
-            src="https://miro.medium.com/v2/resize:fit:1400/1*szBsfY6lp8A0jb1zOvJ0mw.jpeg"
+            src="https://images.unsplash.com/photo-1551836026-d5c0889dd6d5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
           />
         </SwiperSlide>
-
         <SwiperSlide>
           <img
-            alt="Road Trip"
+            alt="Asian Students Learning"
             className="w-full h-64 md:h-80 lg:h-96 object-cover rounded-lg"
-            src="https://waterflame.in/other/hardwarenetworking.jpg"
+            src="https://images.unsplash.com/photo-1580894894513-541e068a3e2b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
           />
         </SwiperSlide>
       </Swiper>

@@ -4,6 +4,8 @@ import { revalidateTag } from "next/cache";
 import AxiosInstance from "@/src/lib/AxiosInstance";
 import envConfig from "@/src/config/envConfig";
 
+const baseAPI = process.env.NEXT_PUBLIC_BASE_API;
+
 export const createPost = async (formData: FormData): Promise<any> => {
   try {
     const { data } = await AxiosInstance.post("/items", formData, {
@@ -19,7 +21,7 @@ export const createPost = async (formData: FormData): Promise<any> => {
 };
 
 export const createCourse = async (data: any) => {
-  const res = await fetch(`https://pcibackend.vercel.app/api/v1/course`, {
+  const res = await fetch(`${baseAPI}/course`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
@@ -35,7 +37,7 @@ export const createCourse = async (data: any) => {
 };
 
 export const createEnrollment = async (data: any) => {
-  const res = await fetch("https://pcibackend.vercel.app/api/v1/enrollment", {
+  const res = await fetch(`${baseAPI}/enrollment`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

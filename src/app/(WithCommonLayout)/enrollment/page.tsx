@@ -9,6 +9,8 @@ import FXSelect from "@/src/components/form/FXSelect";
 import { useGetAllCourseies } from "@/src/hooks/getCourse";
 import { useUser } from "@/src/contex/user.provider";
 
+const baseAPI = process.env.NEXT_PUBLIC_BASE_API;
+
 export default function EnrollmentPage() {
   const methods = useForm({
     defaultValues: { course: "" },
@@ -51,7 +53,7 @@ export default function EnrollmentPage() {
 
     try {
       const response = await fetch(
-        "https://pcibackend.vercel.app/api/v1/enrollment",
+        `${baseAPI}/enrollment`,
         {
           method: "POST",
           headers: {

@@ -4,10 +4,10 @@ import { cookies } from "next/headers";
 
 const token = cookies().get("accessToken")?.value;
 
-const API_URL = "https://pcibackend.vercel.app/api/v1/enrollment"; // Replace with your real API base
+const API_URL = process.env.NEXT_PUBLIC_BASE_API;
 
 export const getAllEnrollment = async () => {
-  const response = await axios.get(`${API_URL}`, {
+  const response = await axios.get(`${API_URL}/enrollment`, {
     headers: {
       Authorization: `${token}`,
       "Content-Type": "application/json",
@@ -19,7 +19,7 @@ export const getAllEnrollment = async () => {
 
 export const approveEnrollmentById = async (studentId: string) => {
   const response = await axios.patch(
-    `https://pcibackend.vercel.app/api/v1/enrollment/approve`,
+    `${API_URL}/enrollment/approve`,
     { student: studentId, status: "APPROVED" },
 
     {

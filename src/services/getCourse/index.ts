@@ -1,6 +1,8 @@
 "use server";
 import AxiosInstance from "@/src/lib/AxiosInstance";
 
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_API;
+
 export const getAllCourse = async () => {
   try {
     const { data } = await AxiosInstance.get("/course");
@@ -13,7 +15,7 @@ export const getAllCourse = async () => {
 
 export const getSingleCourse = async (courseId: string) => {
   const res = await fetch(
-    `https://pcibackend.vercel.app/api/v1/course/${courseId}`,
+    `${BASE_URL}/course/${courseId}`,
     {
       cache: "no-store",
     },
@@ -30,9 +32,27 @@ export const getSingleCourse = async (courseId: string) => {
 
 export const getSingEnrollment = async (enrollmentId: string) => {
   const res = await fetch(
-    `https://pcibackend.vercel.app/api/v1/enrollment/${enrollmentId}`,
+    `${BASE_URL}/enrollment/${enrollmentId}`,
     {
       cache: "no-store",
+    },
+  );
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
+  }
+
+  const result = await res.json();
+
+  return result.data;
+};
+
+
+export const getMyEnrollment = async (enrollmentId: string) => {
+  const res = await fetch(
+    `${BASE_URL}/enrollment/myEnroll/${enrollmentId}`,
+    {
+      cache: "force-cache",
     },
   );
 

@@ -9,6 +9,7 @@ import {
   FilePlus,
   ListChecks,
   LogOut,
+  BookCopy,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 
@@ -53,6 +54,8 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
         >
           Create Course
         </NavItem>
+        
+        
         <NavItem
           active={pathname.includes("/admin/all-courses")}
           href="/admin/all-courses"
@@ -60,6 +63,17 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
         >
           All Courses
         </NavItem>
+
+        <NavItem
+          active={pathname.includes("/admin/add-class")}
+          href="/admin/add-class"
+          icon={<BookCopy className="h-5 w-5" />}
+        >
+          Add-Class
+        </NavItem>
+
+
+
 
         <div className="mt-auto">
           <button
@@ -87,10 +101,10 @@ const AdminSidebar = ({ children }: { children: ReactNode }) => (
   <aside className="w-64 bg-white dark:bg-slate-800 shadow-lg p-4 flex flex-col border-r border-gray-200 dark:border-slate-700">
     <div className="mb-8 p-4">
       <h1 className="text-xl font-bold text-center text-pink-600 dark:text-pink-400">
-        প্রত্যাশা অ্যাডমিন
+         অ্যাডমিন
       </h1>
       <p className="text-xs text-center text-gray-500 dark:text-gray-400 mt-1">
-        Computer Institute
+         Institute
       </p>
     </div>
     <nav className="flex-1 flex flex-col gap-1">{children}</nav>

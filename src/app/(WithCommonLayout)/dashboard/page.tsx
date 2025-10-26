@@ -4,15 +4,7 @@ import { Card, Avatar, Button, Divider, Spinner } from "@nextui-org/react";
 import { BookOpen, LogOut } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import {
-  AwaitedReactNode,
-  JSXElementConstructor,
-  Key,
-  ReactElement,
-  ReactNode,
-  ReactPortal,
-  useEffect,
-} from "react";
+import { useEffect, useState } from "react";
 
 import { useUser } from "@/src/contex/user.provider";
 import { useGetMe } from "@/src/hooks/user";
@@ -20,30 +12,62 @@ import { useGetSingleEnrollment } from "@/src/hooks/getCourse";
 import { logout } from "@/src/services/AuthService";
 
 export default function DashboardPage() {
-  const { user, setUser } = useUser();
+  const { user } = useUser();
   const router = useRouter();
   const { data: userData, isLoading: userLoading } = useGetMe(user?._id);
   const { data: enrollments, isLoading: enrollmentsLoading } =
     useGetSingleEnrollment(user?._id);
 
+  const [localProgress, setLocalProgress] = useState<{ [key: string]: number }>({});
+
   const handleLogout = async () => {
     try {
       await logout();
-      // setUser(null); // Clear user context
       router.push("/");
-      router.refresh(); // Force refresh to clear any cached auth state
+      router.refresh();
     } catch (error) {
       console.error("Logout failed:", error);
-      // Optionally show error toast to user
     }
   };
 
-  // Optional: Redirect if not logged in
+  // Redirect if not logged in
   useEffect(() => {
     if (!user) {
       router.push("/login");
     }
   }, [user, router]);
+
+  // ✅ Load course progress from localStorage for all enrolled courses
+  useEffect(() => {
+    if (enrollments && enrollments.length > 0) {
+      const progressData: { [key: string]: number } = {};
+
+      enrollments.forEach((enrollment: any) => {
+        const courseId = enrollment.course?._id;
+        const stored = localStorage.getItem(`course-progress-${courseId}`);
+        if (stored) {
+          try {
+            const parsed = JSON.parse(stored);
+            if (parsed.completedVideos && parsed.completedVideos.length > 0) {
+              const totalVideos = parsed.totalVideos || enrollment.course?.videoUrls?.length || 0;
+              const percentage = totalVideos
+                ? Math.round((parsed.completedVideos.length / totalVideos) * 100)
+                : 0;
+              progressData[courseId] = percentage;
+            } else {
+              progressData[courseId] = 0;
+            }
+          } catch {
+            progressData[courseId] = 0;
+          }
+        } else {
+          progressData[courseId] = 0;
+        }
+      });
+
+      setLocalProgress(progressData);
+    }
+  }, [enrollments]);
 
   if (!user) {
     return (
@@ -52,6 +76,8 @@ export default function DashboardPage() {
       </div>
     );
   }
+
+
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
@@ -99,7 +125,7 @@ export default function DashboardPage() {
         ) : enrollments?.length === 0 ? (
           <Card className="p-6 text-center">
             <p className="text-gray-500 mb-4">
-              You haven not enrolled in any courses yet
+              You haven’t enrolled in any courses yet
             </p>
             <Button as={Link} color="primary" href="/courses">
               Explore Courses
@@ -107,80 +133,64 @@ export default function DashboardPage() {
           </Card>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {enrollments?.map(
-              (enrollment: {
-                _id: Key | null | undefined;
-                course: {
-                  title:
-                    | string
-                    | number
-                    | bigint
-                    | boolean
-                    | ReactElement<any, string | JSXElementConstructor<any>>
-                    | Iterable<ReactNode>
-                    | ReactPortal
-                    | Promise<AwaitedReactNode>
-                    | null
-                    | undefined;
-                  _id: any;
-                };
-                status:
-                  | string
-                  | number
-                  | bigint
-                  | boolean
-                  | ReactElement<any, string | JSXElementConstructor<any>>
-                  | Iterable<ReactNode>
-                  | Promise<AwaitedReactNode>
-                  | null
-                  | undefined;
-                enrollmentDate: string | number | Date;
-                progress: any;
-              }) => (
+            {enrollments.map((enrollment: any) => {
+              const courseId = enrollment.course?._id;
+              const progress = localProgress[courseId] ?? enrollment.progress ?? 0;
+
+              return (
                 <Card
                   key={enrollment._id}
                   className="p-4 hover:shadow-md transition-shadow"
                 >
-                  <div className="flex justify-between">
-                    <h3 className="font-semibold">{enrollment.course.title}</h3>
+                  <div className="flex justify-between items-center">
+                    <h3 className="font-semibold truncate">
+                      {enrollment?.course?.title}
+                    </h3>
                     <span
                       className={`text-xs px-2 py-1 rounded-full ${
                         enrollment.status === "ongoing"
                           ? "bg-yellow-100 text-yellow-800"
                           : enrollment.status === "completed"
-                            ? "bg-green-100 text-green-800"
-                            : "bg-blue-100 text-blue-800"
+                          ? "bg-green-100 text-green-800"
+                          : "bg-blue-100 text-blue-800"
                       }`}
                     >
                       {enrollment.status}
                     </span>
                   </div>
+
                   <Divider className="my-2" />
+
                   <div className="flex justify-between text-sm text-gray-500 mt-2">
                     <span>
                       Enrolled on:{" "}
                       {new Date(enrollment.enrollmentDate).toLocaleDateString()}
                     </span>
-                    <span>{enrollment.progress || 0}% complete</span>
+                    <span>{progress}% complete</span>
                   </div>
+
+                  {/* Progress Bar */}
                   <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
                     <div
-                      className="bg-blue-600 h-2 rounded-full"
-                      style={{ width: `${enrollment.progress || 0}%` }}
+                      className="bg-blue-600 h-2 rounded-full transition-all"
+                      style={{ width: `${progress}%` }}
                     />
                   </div>
+
                   <Button
                     fullWidth
                     as={Link}
                     className="mt-3"
-                    href={`/courses`}
+                    href={`/dashboard/course/${courseId}`}
                     size="sm"
+                     isDisabled={enrollment.status === "PENDING"}
                   >
-                    View Course
+                    {enrollment.status === "PENDING" ? "আগে পেমেন্ট করুন" : "View Class"}
+                 
                   </Button>
                 </Card>
-              ),
-            )}
+              );
+            })}
           </div>
         )}
       </section>

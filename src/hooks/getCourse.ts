@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import {
   getAllCourse,
+  getMyEnrollment,
   getSingEnrollment,
   getSingleCourse,
 } from "../services/getCourse";
@@ -27,6 +28,15 @@ export const useGetSingleEnrollment = (enrollmentId: any) => {
   return useQuery<any>({
     queryKey: ["GET_SingleEnrooment", enrollmentId],
     queryFn: () => getSingEnrollment(enrollmentId),
+    enabled: !!enrollmentId,
+  });
+};
+
+
+export const useGetMyEnrollment = (enrollmentId: any) => {
+  return useQuery<any>({
+    queryKey: ["GET_MyEnrooment", enrollmentId],
+    queryFn: () => getMyEnrollment (enrollmentId),
     enabled: !!enrollmentId,
   });
 };
