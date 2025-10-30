@@ -20,6 +20,7 @@ export default function NavbarDropdown() {
 
   const handleLogout = () => {
     logout();
+    router.refresh();
     userLoading(true);
 
     if (protectedRoutes.some((route) => pathname.match(route))) {
@@ -37,9 +38,9 @@ export default function NavbarDropdown() {
         <Avatar className="cursor-pointer" src={user?.profilePhoto} />
       </DropdownTrigger>
       <DropdownMenu aria-label="Static Actions">
-        
-    
-       
+
+
+
         <DropdownItem
           key="delete"
           className="text-danger"

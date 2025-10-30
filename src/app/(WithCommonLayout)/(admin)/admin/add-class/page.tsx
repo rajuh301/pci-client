@@ -44,7 +44,7 @@ export default function UploadClassVideos() {
   const fetchCourses = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(`${baseApi}/course`);
+      const res = await axios.get(`${baseApi}course`);
       setCourses(res.data?.data || []);
     } catch (error) {
       toast.error("Failed to load courses");
@@ -92,7 +92,7 @@ export default function UploadClassVideos() {
     try {
       setLoading(true);
       const res = await axios.post(
-        `${baseApi}/course/upload-video/${selectedCourse._id}`,
+        `${baseApi}course/upload-video/${selectedCourse._id}`,
         { videoUrls }
       );
       toast.success("🎥 Videos uploaded successfully!");

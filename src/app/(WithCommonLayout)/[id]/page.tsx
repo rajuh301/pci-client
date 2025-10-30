@@ -127,7 +127,9 @@ export default function Enrollment() {
         <div className="mt-6 text-center">
           <Link
             className="inline-block px-6 py-3 bg-pink-600 text-white rounded-full font-semibold hover:bg-pink-700 transition"
-            href="/enrollment"
+            // href="/enrollment"
+            href={`/enrollment/${encodeURIComponent(courseId)}`}
+
           >
             এখন ভর্তি হন
           </Link>

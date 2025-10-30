@@ -54,6 +54,7 @@ export const loginAdmin = async (adminData: FieldValues) => {
 export const logout = () => {
   cookies().delete("accessToken");
   cookies().delete("refreshToken");
+
 };
 
 export const getCurrentUser = async () => {

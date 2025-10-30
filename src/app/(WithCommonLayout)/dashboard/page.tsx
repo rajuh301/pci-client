@@ -25,6 +25,7 @@ export default function DashboardPage() {
       await logout();
       router.push("/");
       router.refresh();
+      window.location.reload();
     } catch (error) {
       console.error("Logout failed:", error);
     }
@@ -147,13 +148,12 @@ export default function DashboardPage() {
                       {enrollment?.course?.title}
                     </h3>
                     <span
-                      className={`text-xs px-2 py-1 rounded-full ${
-                        enrollment.status === "ongoing"
+                      className={`text-xs px-2 py-1 rounded-full ${enrollment.status === "ongoing"
                           ? "bg-yellow-100 text-yellow-800"
                           : enrollment.status === "completed"
-                          ? "bg-green-100 text-green-800"
-                          : "bg-blue-100 text-blue-800"
-                      }`}
+                            ? "bg-green-100 text-green-800"
+                            : "bg-blue-100 text-blue-800"
+                        }`}
                     >
                       {enrollment.status}
                     </span>
@@ -183,10 +183,10 @@ export default function DashboardPage() {
                     className="mt-3"
                     href={`/dashboard/course/${courseId}`}
                     size="sm"
-                     isDisabled={enrollment.status === "PENDING"}
+                    isDisabled={enrollment.status === "PENDING"}
                   >
                     {enrollment.status === "PENDING" ? "আগে পেমেন্ট করুন" : "View Class"}
-                 
+
                   </Button>
                 </Card>
               );

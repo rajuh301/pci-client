@@ -58,7 +58,7 @@ export const config = {
   matcher: [
     "/profile/:path*",
     "/admin/:path*",
-    "/enrollment", // ✅ added this line
+    "/enrollment/:path*", // ✅ added this line
     "/login",
     "/register",
     "/adminLogin",
