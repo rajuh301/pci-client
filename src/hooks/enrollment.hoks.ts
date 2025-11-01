@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import {
   getAllEnrollment,
   approveEnrollmentById,
+  rejectEnrollmentById,
 } from "../services/enrollment";
 
 export const useGetAllEnrollment = () => {
@@ -28,6 +29,27 @@ export const useApproveStudent = () => {
     },
     onError: (error: any) => {
       toast.error(error.message || "Failed to approve student");
+    },
+  });
+};
+
+
+
+export const useRejectStudent = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: ["REJECT_STUDENT"],
+    mutationFn: async (studentId: string) =>
+      await rejectEnrollmentById(studentId),
+    onSuccess: () => {
+      toast.success("Student rejected successfully!");
+
+      // ✅ Invalidate enrollment data so it refetches
+      queryClient.invalidateQueries({ queryKey: ["GET_AllCourse"] });
+    },
+    onError: (error: any) => {
+      toast.error(error.message || "Failed to reject student");
     },
   });
 };

@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { useParams, useRouter } from "next/navigation";
 import { useGetSingleCourseies } from "@/src/hooks/getCourse";
 import { useUser } from "@/src/contex/user.provider";
-import ManualPaymentPage from "@/src/app/payment/page";
+import { useState } from "react";
 
 const baseAPI = process.env.NEXT_PUBLIC_BASE_API;
 
@@ -15,6 +15,11 @@ export default function EnrollmentPage() {
   const courseId = id as string;
 
   const { user } = useUser();
+
+  const [loading, setLoading] = useState(false);
+
+  const [paymentBank, setPaymentBank] = useState("No need bank");
+  const [tnxId, setTnxId] = useState("");
 
   // Fetch single course details
   const { data: course, isLoading, isError } = useGetSingleCourseies(courseId);
@@ -47,10 +52,11 @@ export default function EnrollmentPage() {
     const enrollmentData = {
       student: user._id,
       course: course._id,
-      paymentBank: "No need bank",
+      paymentBank: paymentBank,
       paymentAmount: course.price.toString(),
-      screenShort: "No need Screenshot",
+      tnxId: tnxId,
     };
+    setLoading(true);
 
     try {
       const response = await fetch(`${baseAPI}/enrollment`, {
@@ -59,7 +65,9 @@ export default function EnrollmentPage() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(enrollmentData),
+
       });
+
 
       if (!response.ok) {
         throw new Error("Failed to submit enrollment");
@@ -71,6 +79,12 @@ export default function EnrollmentPage() {
       console.error("Error submitting enrollment:", error);
       toast.error("Failed to submit enrollment. Please try again.");
     }
+
+    finally {
+      setLoading(false);
+    }
+
+
   };
 
   return (
@@ -116,18 +130,50 @@ export default function EnrollmentPage() {
               ৳{course.price || "5,000"}
             </span>
           </div>
+
+
+          <div>
+            <p className="text-gray-700 dark:text-gray-300">
+              প্রথমে পেমেন্ট পদ্ধতি নির্বাচন করুন এবং বাছাইকৃত নাম্বারে নির্দিষ্ট পরিমাণ টাকা পেমেন্ট করুন এবং শেষে ট্রানজেকশন আইডি সঠিকভাবে লিখুন সবশেষে ভর্তি হন বাটনের ক্লিক করুন
+            </p>
+          </div>
+
+
+
+          <div>
+
+            <select
+              value={paymentBank}
+              required
+              onChange={(e) => setPaymentBank(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-400 dark:focus:ring-pink-600"
+            >
+              <option value="পেমেন্ট পদ্ধতি নির্বাচন করুন">পেমেন্ট পদ্ধতি নির্বাচন করুন</option>
+              <option value="বিকাশ">বিকাশ - 01732550760</option>
+              <option value="নগদ">নগদ - 01732550760</option>
+              <option value="রকেট ">রকেট - 01732550760</option>
+            </select>
+
+          </div>
+
+
+          <div>
+            <input
+              className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-400 dark:focus:ring-pink-600"
+              required
+              type="text"
+              value={tnxId}
+              placeholder="Enter your Transaction ID"
+              onChange={(e) => setTnxId(e.target.value)}
+            />
+
+
+          </div>
+
         </div>
       </div>
 
-      {/* -------------- payment ---------------- */}
-      <div>
-        <ManualPaymentPage
-          courseId={course._id}
-          coursePrice={course.price}
-          userId={user?._id}
-        />
-      </div>
-      {/* -------------- payment ---------------- */}
+
 
       {/* Action Buttons */}
       <div className="flex justify-end gap-4 pt-6">
@@ -142,8 +188,11 @@ export default function EnrollmentPage() {
           className="bg-pink-600 text-white hover:bg-pink-700"
           color="primary"
           onClick={handleEnroll}
+          isDisabled={loading}
         >
-          Complete Enrollment
+          {loading ? <Spinner size="sm" color="white" /> : " ভর্তি হন"}
+
+
         </Button>
       </div>
     </div>

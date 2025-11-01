@@ -15,10 +15,12 @@ import {
 import { CheckCircle, XCircle, Clock } from "lucide-react";
 import { format } from "date-fns";
 import { useState } from "react";
+import { toast } from "sonner";
 
 import {
   useApproveStudent,
   useGetAllEnrollment,
+  useRejectStudent,
 } from "@/src/hooks/enrollment.hoks";
 
 type EnrollmentStatus = "APPROVED" | "REJECTED" | "PENDING";
@@ -36,6 +38,7 @@ interface Enrollment {
   };
   paymentAmount: string;
   paymentBank: string;
+  tnxId: string;
   status: EnrollmentStatus;
   enrollmentDate: string;
 }
@@ -57,15 +60,18 @@ const statusIconMap: Record<EnrollmentStatus, JSX.Element> = {
 
 export default function AllEnrollmentTable() {
   const { data, isLoading, isError } = useGetAllEnrollment();
-  const { mutate: approveStudent, isPending } = useApproveStudent();
-  const [approvedIds, setApprovedIds] = useState<string[]>([]);
+
+  const { mutate: approveStudent, isPending: isApproving } = useApproveStudent();
+  const { mutate: rejectStudent, isPending: isRejecting } = useRejectStudent();
+
+  const [processedIds, setProcessedIds] = useState<string[]>([]);
 
   const allEnrollments: Enrollment[] = data?.data || [];
 
-  // Filter pending enrollments only
+  // Only show pending enrollments that haven’t been processed
   const enrollments = allEnrollments.filter(
     (enrollment) =>
-      enrollment.status === "PENDING" && !approvedIds.includes(enrollment._id),
+      enrollment.status === "PENDING" && !processedIds.includes(enrollment._id)
   );
 
   if (isLoading) {
@@ -108,22 +114,25 @@ export default function AllEnrollmentTable() {
                 <div>
                   <p className="font-medium">{enrollment.student.name}</p>
                   <p className="text-sm text-gray-500">
-                    {/* 🆔 ID: {enrollment?.student?.name} */}
-                  </p>
-                  <p className="text-sm text-gray-500">
                     ✉️ {enrollment.student.email}
                   </p>
                 </div>
               </TableCell>
+
               <TableCell>
                 <p className="font-medium">{enrollment.course.title}</p>
               </TableCell>
+
               <TableCell>
                 <p className="font-medium">৳{enrollment.paymentAmount}</p>
                 <p className="text-sm text-gray-500">
-                  {enrollment.paymentBank}
+                  {enrollment.paymentBank}{" "}
+                  <span className="ml-2 text-gray-400">
+                    💰{enrollment.tnxId}
+                  </span>
                 </p>
               </TableCell>
+
               <TableCell>
                 <Chip
                   color={statusColorMap[enrollment.status]}
@@ -133,24 +142,50 @@ export default function AllEnrollmentTable() {
                   {enrollment.status}
                 </Chip>
               </TableCell>
+
               <TableCell>
                 {format(new Date(enrollment.enrollmentDate), "dd MMM, yyyy")}
               </TableCell>
-              <TableCell>
+
+              <TableCell className="flex gap-2">
                 <Button
                   color="success"
-                  isLoading={isPending}
+                  isLoading={isApproving}
                   size="sm"
                   variant="flat"
                   onClick={() => {
                     approveStudent(enrollment._id, {
                       onSuccess: () => {
-                        setApprovedIds((prev) => [...prev, enrollment._id]);
+                        toast.success("Student approved successfully!");
+                        setProcessedIds((prev) => [...prev, enrollment._id]);
+                      },
+                      onError: () => {
+                        toast.error("Failed to approve student.");
                       },
                     });
                   }}
                 >
                   Approve
+                </Button>
+
+                <Button
+                  color="danger"
+                  isLoading={isRejecting}
+                  size="sm"
+                  variant="flat"
+                  onClick={() => {
+                    rejectStudent(enrollment._id, {
+                      onSuccess: () => {
+                        toast.success("Student rejected successfully!");
+                        setProcessedIds((prev) => [...prev, enrollment._id]);
+                      },
+                      onError: () => {
+                        toast.error("Failed to reject student.");
+                      },
+                    });
+                  }}
+                >
+                  Reject
                 </Button>
               </TableCell>
             </TableRow>

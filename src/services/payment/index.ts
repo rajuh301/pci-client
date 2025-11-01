@@ -1,12 +1,12 @@
 "use server";
 import AxiosInstance from "@/src/lib/AxiosInstance";
 
-export const createPayment = async (data: any) => {
+export const getAllPayment = async () => {
   try {
-    const res = await AxiosInstance.post("/payment", data);
+    const { data } = await AxiosInstance.get("/payment");
 
-    return res.data;
+    return data;
   } catch (error: any) {
-    throw new Error(error.response?.data?.message || "Failed to create course");
+    throw new Error(error.message);
   }
 };

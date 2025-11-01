@@ -32,3 +32,18 @@ export const approveEnrollmentById = async (studentId: string) => {
 
   return response.data;
 };
+export const rejectEnrollmentById = async (studentId: string) => {
+  const response = await axios.patch(
+    `${API_URL}/enrollment/reject`,
+    { student: studentId, status: "REJECTED" },
+
+    {
+      headers: {
+        Authorization: `${token}`,
+        "Content-Type": "application/json",
+      },
+    },
+  );
+
+  return response.data;
+};

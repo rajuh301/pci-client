@@ -12,7 +12,6 @@ export default function Page() {
     isSuccess: courseSuccess,
   } = useGetAllCourseies();
 
-  console.log("All Course Data:", getAllCourseData);
 
   return (
     <div>
