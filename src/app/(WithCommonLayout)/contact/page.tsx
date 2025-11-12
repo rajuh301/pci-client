@@ -43,9 +43,9 @@ export default function page() {
                     <h4 className="text-lg font-semibold">হেল্পলাইন</h4>
                     <Link
                       className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                      href="tel:09638116611"
+                      href="tel:+8801732550760"
                     >
-                      09638-116611
+                      01732550760
                     </Link>
                   </div>
                 </div>

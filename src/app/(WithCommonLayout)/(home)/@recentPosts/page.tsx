@@ -58,7 +58,7 @@ export default function Home() {
               {user ? (
                 <Link
                   className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold shadow-lg hover:bg-blue-100 transition duration-300"
-                  href="/enrollment"
+                  href="/dashboard"
                 >
                   এখনই শেখা শুরু করুন
                 </Link>
@@ -156,7 +156,7 @@ export default function Home() {
                 <img
                   alt="About Us"
                   className="rounded-lg shadow-xl w-full h-auto"
-                  src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"
+                  src="https://www.worldbank.org/content/dam/Worldbank/Highlights%20&%20Features/sar/bangladesh/bd-heqep-735x490.jpg"
                 />
               </motion.div>
               <motion.div
@@ -261,7 +261,7 @@ export default function Home() {
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {getAllCourseData?.data.map((course: any, index: number) => (
+                {getAllCourseData?.data?.map((course: any, index: number) => (
                   <motion.div
                     key={index}
                     className="bg-white dark:bg-slate-800 rounded-xl shadow-lg overflow-hidden border border-gray-200 dark:border-slate-700"
@@ -537,7 +537,7 @@ export default function Home() {
                   <img
                     alt="Student"
                     className="w-12 h-12 rounded-full mr-4"
-                    src="https://randomuser.me/api/portraits/men/32.jpg"
+                    src="https://images.pexels.com/photos/4145153/pexels-photo-4145153.jpeg"
                   />
                   <div>
                     <h4 className="font-semibold">রাহুল আহমেদ</h4>
@@ -573,7 +573,7 @@ export default function Home() {
                   <img
                     alt="Student"
                     className="w-12 h-12 rounded-full mr-4"
-                    src="https://randomuser.me/api/portraits/women/44.jpg"
+                    src="https://www.shutterstock.com/shutterstock/videos/1097293349/thumb/1.jpg?ip=x480"
                   />
                   <div>
                     <h4 className="font-semibold">সুমাইয়া ইসলাম</h4>
@@ -609,7 +609,7 @@ export default function Home() {
                   <img
                     alt="Student"
                     className="w-12 h-12 rounded-full mr-4"
-                    src="https://randomuser.me/api/portraits/men/75.jpg"
+                    src="https://s7d1.scene7.com/is/image/wbcollab/online-edu1?qlt=90&fmt=webp&resMode=sharp2"
                   />
                   <div>
                     <h4 className="font-semibold">আরিফ হাসান</h4>
@@ -718,7 +718,7 @@ export default function Home() {
                     <div className="ml-4">
                       <h4 className="text-lg font-semibold">ইমেইল</h4>
                       <p className="text-gray-600 dark:text-gray-300">
-                        support@buddhibritto.com
+                        rajuh301@gmail.com
                       </p>
                     </div>
                   </div>
@@ -743,9 +743,9 @@ export default function Home() {
                       <h4 className="text-lg font-semibold">হেল্পলাইন</h4>
                       <Link
                         className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                        href="tel:09638116611"
+                        href="tel:+8801732550760"
                       >
-                        09638-116611
+                        01732550760
                       </Link>
                     </div>
                   </div>
