@@ -66,7 +66,7 @@ export default function UploadClassVideos() {
     onOpen();
   };
 
-  // ✅ Add new video URL
+  // ✅ Add new video URLc
   const handleAddVideo = () => {
     if (!newUrl.trim()) return toast.error("Please enter a valid video URL");
 
