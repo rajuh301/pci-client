@@ -92,7 +92,7 @@ export default function UploadClassVideos() {
     try {
       setLoading(true);
       const res = await axios.post(
-        `${baseApi}course/upload-video/${selectedCourse._id}`,
+        `${baseApi}/course/upload-video/${selectedCourse._id}`,
         { videoUrls }
       );
       toast.success("🎥 Videos uploaded successfully!");
